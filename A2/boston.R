@@ -25,7 +25,7 @@ text(classifier, use.n = TRUE, pretty = TRUE)
 
 # Q7
 
-split = sample.split(train_set$class, SplitRatio = 0.25)
+split = sample.split(1:nrow(train_set), SplitRatio = 1/4)
 train_set2 = subset(train_set, split == TRUE)
 
 classifier2 = rpart(
