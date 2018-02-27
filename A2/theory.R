@@ -50,3 +50,20 @@ b_gain = gain(10, 10, list(c(10, 6), c(0, 4)))
 c_gain = gain(100, 10, list(c(80, 2), c(20, 8)))
 d_gain = gain(100, 10, list(c(100, 6), c(0, 4))) # best
 
+
+library(rpart)
+library(rpart.plot)
+
+dataset = read.csv('theory.csv')
+
+
+classifier = rpart(
+  y ~ ., 
+  data = dataset,
+  method = 'class',
+  minsplit = 1,
+  cp = 0
+)
+
+
+rpart.plot(classifier)
