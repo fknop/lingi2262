@@ -1,7 +1,7 @@
 library(rpart)
 library(rpart.plot)
 library(caTools)
-library()
+
 
 number_of_nodes = function (tree) {
   length(rownames(tree$frame))
@@ -26,8 +26,6 @@ cm_train = table(train_set[, 15], y_pred_train)
 
 rpart.plot(classifier, type= 0, tweak=2, extra = 0, fallen.leaves = FALSE)
 text(classifier, use.n = TRUE, pretty = TRUE)
-
-
 
 
 # Q7
@@ -104,7 +102,7 @@ frame = data.frame(
 )
 
 boxplot(
-  nodes ~ training_size
+  nodes ~ training_size,
   frame,
   xlab = 'Training Size',
   ylab = 'Number of nodes',
@@ -137,25 +135,6 @@ plot(
   main = 'Accuracy by training size'
 )
 
-
-plot(
-  x = factor(frame$training_size, labels = c('5%', '10%', '20%', '50%', '99%')),
-  y = frame$accuracy,
-  xlab = 'Training Size',
-  ylab = 'Accuracy',
-  main = ' by training size'
-)
-
-
-#plot(frame)
-#boxplot(frame)
-
-#data.frame(
-#  sample_index = 
-#  train_size =
-#  nodes = 
-#  accuracy =
-#)
 
 
 
