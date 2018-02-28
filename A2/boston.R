@@ -108,9 +108,44 @@ boxplot(
   frame,
   xlab = 'Training Size',
   ylab = 'Number of nodes',
-  type = 'b', 
   main = 'Nodes by training size'
 )
+
+boxplot(
+  accuracy ~ training_size,
+  frame,
+  xlab = 'Training Size',
+  ylab = 'Accuracy',
+  main = 'Nodes by training size'
+)
+
+plot(
+  x = factor(frame$training_size, labels = c('5%', '10%', '20%', '50%', '99%')),
+  y = frame$nodes,
+  frame,
+  xlab = 'Training Size',
+  ylab = 'Number of nodes',
+  type = 'p',
+  main = 'Nodes by training size'
+)
+
+plot(
+  x = factor(frame$training_size, labels = c('5%', '10%', '20%', '50%', '99%')),
+  y = frame$accuracy,
+  xlab = 'Training Size',
+  ylab = 'Accuracy',
+  main = 'Accuracy by training size'
+)
+
+
+plot(
+  x = factor(frame$training_size, labels = c('5%', '10%', '20%', '50%', '99%')),
+  y = frame$accuracy,
+  xlab = 'Training Size',
+  ylab = 'Accuracy',
+  main = ' by training size'
+)
+
 
 #plot(frame)
 #boxplot(frame)
