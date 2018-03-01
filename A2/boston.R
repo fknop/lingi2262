@@ -215,13 +215,29 @@ max_value = function(row) {
   names(which.max(table(t(row))))
 }
 
-forest_size = 500
+predict_forest = function (size) {
+  
+  forest_size = size[[1]]
+  trees = lapply(1:forest_size, generate_sample_tree)
+  
+  predictions = data.frame(lapply(trees, predict_tree))
+  colnames(predictions) = 1:forest_size
+  
+  final_predictions = apply(predictions, 1, max_value)
+  cm = table(test_set[, 15], final_predictions)
+  acc = accuracy(cm)
+  c(accuracy = acc, size = forest_size)
+}
 
-trees = lapply(1:forest_size, generate_sample_tree)
+sizes = seq(1, 100, by = 2)
 
-predictions = data.frame(lapply(trees, predict_tree))
-colnames(predictions) = 1:10
-
-final_predictions = apply(predictions, 1, max_value)
-cm = table(test_set[, 15], final_predictions)
-print(cm)
+curve = sapply(sizes, predict_forest)
+plot(
+  x = curve[2,], 
+  y = curve[1,], 
+  main = 'Random Forest accuracy',
+  ylab = 'Accuracy',
+  xlab = 'Forest Size',
+  type = 'p', 
+  ylim=c(0.60, 1)
+)
