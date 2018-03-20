@@ -20,3 +20,10 @@ points(x1_minus, x2_minus, col = "blue", pch = 15)
 
 
 abline(a = 2, b = -1, col = "green")
+
+
+
+points(x = 3, y = 3, col = "red", pch = 15)
+
+
+points(x = 2, y = -1.25, col = "yellow", pch = 15)
