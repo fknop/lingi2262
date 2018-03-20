@@ -5,7 +5,7 @@ label = ncol(train)
 train[-label] = scale(train[-label])
 test[-label] = scale(test[-label])
 
-perceptron_with_margin = function (train, lrate, b, max_t = 2000) {
+perceptron_with_margin = function (train, lrate, b, max_t = 10000) {
   
   labels = as.numeric(factor(t(train[ncol(train)])))
   labels = sapply(labels, function(x) {
@@ -41,7 +41,7 @@ perceptron_with_margin = function (train, lrate, b, max_t = 2000) {
     
     wtxk = sum(w * xk)
     if (wtxk <= b) {
-      w = w + (lrate(k) * xk)
+      w = w + (lrate(t) * xk)
     }
     
     if (sum(w * xk) > b) {
@@ -57,7 +57,7 @@ rate_fn = function(k) {
   1/k
 }
 
-w = perceptron_with_margin(train, rate_fn, 100)
+w = perceptron_with_margin(train, rate_fn, 10)
 
 
 
@@ -85,4 +85,18 @@ classify_test_set = function(test_set, w) {
 } 
 
 classify_test_set(test, w)
+classify_test_set(valid, w)
+
+
+classifier = svm(formula = labels ~ .,
+                 data = train,
+                 type = 'C-classification',
+                 kernel = 'linear',
+                 cost = 1)
+
+y_pred = predict(classifier, newdata = test)
+cm = table(test[, ncol(test)], y_pred)
+
+
+print(accuracy(cm))
 
