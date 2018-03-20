@@ -54,7 +54,7 @@ random_sample = function(ratio) {
 }
 
 COST = 1
-KERNEL = 'radial'
+KERNEL = 'linear'
 DEGREE = 3
 
 validation_accuracy = function (element) {
@@ -116,7 +116,7 @@ test_accuracy = function (element) {
   c(ratio, accuracy(cm_test))
 }
 
-training_sizes = c(20/100, 40/100, 60/100, 80/100, 100/100)
+training_sizes = c(10/100, 20/100, 30/100, 40/100, 50/100, 60/100, 70/100, 80/100, 90/100, 100/100)
 
 results = apply(expand.grid(training_sizes, 1:10), 1, validation_accuracy)
 
@@ -129,6 +129,7 @@ frame = data.frame(
 colnames(frame) = c("x", "y")
 
 means = aggregate(. ~ x, frame, mean)
+
 
 results_test = apply(expand.grid(training_sizes, 1:10), 1, test_accuracy)
 frame_test = data.frame(
