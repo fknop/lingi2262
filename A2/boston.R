@@ -14,8 +14,8 @@ classifier = rpart(
   class ~ . - X, 
   data = train_set,
   method = 'class',
-  minsplit = 2,
-  cp = 0 
+  minsplit = 4,
+  cp = 0.001
 )
 
 y_pred_train = predict(classifier, newdata = train_set, type = 'class')
