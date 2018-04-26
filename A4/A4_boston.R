@@ -62,3 +62,5 @@ accuracies = unlist(lapply(folds, function(fold) {
 }))
 
 mean_acc = mean(accuracies)
+min_acc = min(accuracies)
+max_acc = max(accuracies)
