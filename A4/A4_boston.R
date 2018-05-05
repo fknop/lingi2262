@@ -25,6 +25,7 @@ accuracy = function(cm) {
 
 test_sample = random_sample(test_set, 50)
 train_sample = random_sample(train_set, 1/10)
+n = 50
 
 classifier = rpart(
   class ~ . - X, 
@@ -43,11 +44,34 @@ rpart.plot(classifier, type= 0, tweak=2, extra = 0, fallen.leaves = FALSE)
 
 acc = accuracy(cm_test)
 alpha = 0.05
-norm = qnorm(alpha / 2)
+norm = qnorm(1 - alpha / 2)
 
-sigma = acc * (1 - acc) / 50
+sigma = (acc * (1 - acc)) / n
 
-interval = c(acc - sqrt(sigma), acc + sqrt(sigma))
+interval = c(acc - (norm * sqrt(sigma)), acc + (norm * sqrt(sigma)))
+
+# 4.3
+
+folds = lapply(1:100, function(i) {
+  random_sample(test_set, 50)
+})
+
+
+accuracies = unlist(lapply(folds, function(fold) {
+  y_pred_test = predict(classifier, newdata = fold, type = 'class')
+  cm_test = table(fold[, 15], y_pred_test)
+  accuracy(cm_test)
+}))
+
+acc = mean(accuracies)
+
+alpha = 0.05
+norm = qnorm(1 - alpha / 2)
+
+sigma = (acc * (1 - acc)) / n
+
+interval = c(acc - (norm * sqrt(sigma)), acc + (norm * sqrt(sigma)))
+
 
 # 4.2
 
