@@ -18,23 +18,31 @@ test_set = cbind(test_set[, !to_convert], tmp)
 
 # Missing Data
 
-## Train set
-
-for (i in 1:ncol(train_set)) {
-  train_set[, i] = ifelse(
-                      is.na(train_set[, i]),
-                      ave(train_set[, i], FUN = function(x) mean(x, na.rm = TRUE)),
-                      train_set[, i]
-                    )
+fix_missing_data = function(set) {
+  to_remove = c()
+  for (i in 1:ncol(set)) {
+    
+    na = is.na(set[, i])
+    if (sum(na) == nrow(set)) {
+      to_remove = c(to_remove, i)
+    }
+    else {
+      set[, i] = ifelse(
+        na,
+        ave(set[, i], FUN = function(x) mean(x, na.rm = TRUE)),
+        set[, i]
+      )
+    }
+  }
   
-  #train_set[is.na(train_set[, i]), i] = mean(train_set[, i], na.rm = TRUE)
+  set = set[, -to_remove]
+  
+  set
 }
 
-## Test set
+train_set = fix_missing_data(train_set)
+test_set = fix_missing_data(test_set)
 
-for (i in 1:ncol(test_set)) {
-  test_set[is.na(test_set[, i]), i] = mean(test_set[, i], na.rm = TRUE)
-}
 
 # Removing near zero variance feature
 library(caret)

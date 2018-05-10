@@ -7,6 +7,11 @@ compute_bcr = function(confusion_matrix) {
   ((TP / (TP + FN)) + (TN / (TN + FP))) / 2
 }
 
+accuracy = function (cm) {
+  sum(diag(cm)) / sum(cm)
+}
+
+
 write_results = function(confusion_matrix, predictions, filename = 'results.csv') {
   bcr = compute_bcr(confusion_matrix)
   bcr_frame = data.frame(bcr)
